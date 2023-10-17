@@ -38,6 +38,9 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 
+
+
+const deployId="https://friendfest.onrender.com"
 export const loginUser = (userData) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
@@ -47,7 +50,7 @@ export const loginUser = (userData) => async (dispatch) => {
         "content-type": "application/json",
       },
     };
-    const { data } = await axios.post("/api/v1/login", userData, config);
+    const { data } = await axios.post(`${deployId}/api/v1/login`, userData, config);
 
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
   } catch (error) {
@@ -67,7 +70,7 @@ export const registerUser = (userData) => async (dispatch) => {
         "content-type": "application/json",
       },
     };
-    const { data } = await axios.post("/api/v1/register", userData, config);
+    const { data } = await axios.post(`${deployId}/api/v1/register`, userData, config);
 
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -81,7 +84,7 @@ export const registerUser = (userData) => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
-    const { data } = await axios.get(`/api/v1/admin/users`);
+    const { data } = await axios.get(`${deployId}/api/v1/admin/users`);
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
@@ -95,7 +98,7 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(`/api/v1/password/forgot`, email, config);
+    const { data } = await axios.post(`${deployId}/api/v1/password/forgot`, email, config);
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
@@ -113,7 +116,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.put(
-      `/api/v1/password/reset/${token}`,
+      `${deployId}/api/v1/password/reset/${token}`,
       passwords,
       config
     );
@@ -130,7 +133,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 // Logout User
 export const logout = () => async (dispatch) => {
   try {
-    await axios.get(`/api/v1/logout`);
+    await axios.get(`${deployId}/api/v1/logout`);
 
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
@@ -142,7 +145,7 @@ export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/me`);
+    const { data } = await axios.get(`${deployId}/api/v1/me`);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
